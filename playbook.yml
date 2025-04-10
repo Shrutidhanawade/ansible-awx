@@ -3,13 +3,14 @@
   hosts: 54.162.219.49
   become: true
   remote_user: ubuntu
-  gather_facts: yes
+  gather_facts: no  # Disable fact gathering to avoid potential issues
   ansible_python_interpreter: /usr/bin/python3
   tasks:
 
     - name: Update apt cache
       apt:
         update_cache: yes
+        cache_valid_time: 3600  # Cache is valid for 1 hour to improve performance
 
     - name: Install Apache Web Server
       apt:
@@ -26,6 +27,7 @@
       command: systemctl status apache2 --no-pager
       register: apache_status
       ignore_errors: yes
+      failed_when: false
 
     - name: Display Apache status
       debug:
