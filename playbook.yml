@@ -3,7 +3,7 @@
   hosts: 52.0.163.50
   become: true
   remote_user: ubuntu
-  ansible_python_interpreter: /usr/bin/python3
+  gather_facts: yes
   tasks:
 
     - name: Update apt cache
