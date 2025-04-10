@@ -2,6 +2,9 @@
 - name: Install and manage Apache on Ubuntu
   hosts: 54.162.219.49
   become: true
+  remote_user: ubuntu
+  gather_facts: yes
+  ansible_python_interpreter: /usr/bin/python3
   tasks:
 
     - name: Update apt cache
