@@ -3,7 +3,6 @@
   hosts: 54.162.219.49
   become: true
   remote_user: ubuntu
-  gather_facts: no  # Disable fact gathering to avoid potential issues
   ansible_python_interpreter: /usr/bin/python3
   tasks:
 
