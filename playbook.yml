@@ -2,14 +2,14 @@
 - name: Install and manage Apache on Ubuntu
   hosts: 52.0.163.50
   become: true
-  remote_user: ubuntu
   gather_facts: yes
+
   tasks:
 
     - name: Update apt cache
       apt:
         update_cache: yes
-        cache_valid_time: 3600  # Cache is valid for 1 hour to improve performance
+        cache_valid_time: 3600
 
     - name: Install Apache Web Server
       apt:
