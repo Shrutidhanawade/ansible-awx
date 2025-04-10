@@ -1,6 +1,6 @@
 ---
 - name: Install and manage Apache on Ubuntu
-  hosts: 54.162.219.49
+  hosts: 52.0.163.50
   become: true
   remote_user: ubuntu
   ansible_python_interpreter: /usr/bin/python3
