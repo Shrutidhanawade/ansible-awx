@@ -1,8 +1,8 @@
 ---
 - name: Install and manage Apache on Ubuntu
-  hosts: 52.0.163.50
+  hosts: all
   become: true
-  gather_facts: yes
+  gather_facts: true
 
   tasks:
     - name: Update apt cache
