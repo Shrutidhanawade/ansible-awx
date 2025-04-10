@@ -1,0 +1,20 @@
+---
+- name: Install Apache Web Server on Ubuntu
+  hosts: 54.162.219.49
+  become: yes  # This ensures we have root privileges to install packages
+  tasks:
+    
+    - name: Update apt cache
+      apt:
+        update_cache: yes
+    
+    - name: Install Apache
+      apt:
+        name: apache2
+        state: present
+    
+    - name: Ensure Apache service is running and enabled
+      service:
+        name: apache2
+        state: started
+        enabled: yes
