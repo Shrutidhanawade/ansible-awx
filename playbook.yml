@@ -5,6 +5,11 @@
   gather_facts: true
 
   tasks:
+    - name: Ensure python-apt is installed
+      apt:
+        name: python-apt
+        state: present
+
     - name: Update apt cache
       apt:
         update_cache: yes
