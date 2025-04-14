@@ -25,7 +25,7 @@
       command: systemctl status apache2 --no-pager
       register: apache_status
       ignore_errors: yes
-      failed_when: false
+      changed_when: false
 
     - name: Display Apache status
       debug:
