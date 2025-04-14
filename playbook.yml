@@ -2,23 +2,28 @@
 - name: Install and manage Apache on Ubuntu
   hosts: all
   become: true
-  gather_facts: true
+  gather_facts: false  # disable gathering facts to avoid python-apt dependency
+
+  pre_tasks:
+    - name: Ensure apt cache is updated (raw)
+      raw: apt-get update -y
+      register: update_result
+      changed_when: false
+
+    - name: Install python3-apt if not present (raw)
+      raw: apt-get install -y python3-apt
+      register: python3_apt_result
+      changed_when: "'Setting up python3-apt' in python3_apt_result.stdout"
+
+    - name: Re-enable fact gathering
+      setup:
 
   tasks:
-    - name: Ensure python-apt is installed
-      apt:
-        name: python3-apt
-        state: present
-
-    - name: Update apt cache
-      apt:
-        update_cache: yes
-        cache_valid_time: 3600
-
     - name: Install Apache Web Server
       apt:
         name: apache2
         state: present
+        update_cache: yes
 
     - name: Ensure Apache is started and enabled
       service:
