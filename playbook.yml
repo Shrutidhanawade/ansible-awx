@@ -1,25 +1,35 @@
 ---
-- name: Install and manage Apache on Ubuntu
-  hosts: all
+- name: Install Apache Web Server on Ubuntu
+  hosts: 18.212.50.197
   become: true
-  gather_facts: false  # Disable gathering facts to avoid python-apt dependency
+  gather_facts: false
 
   pre_tasks:
-    - name: Ensure apt cache is updated
+    - name: Update apt cache
       raw: apt-get update -y
-      register: update_result
+      register: apt_update
       changed_when: false
 
-    - name: Install python3-six and python3-apt if not present
-      raw: apt-get install -y python3-six python3-apt
-      register: python3_dependencies_result
-      changed_when: "'Setting up python3-six' in python3_dependencies_result.stdout or 'Setting up python3-apt' in python3_dependencies_result.stdout"
+    - name: Install python3-apt
+      raw: apt-get install -y python3-apt
+      register: install_python3_apt
+      changed_when: false
+
+    - name: Install python3-six
+      raw: apt-get install -y python3-six
+      register: install_python3_six
+      changed_when: false
+
+    - name: Install python3-pip
+      raw: apt-get install -y python3-pip
+      register: install_python3_pip
+      changed_when: false
 
     - name: Re-enable fact gathering
       setup:
 
   tasks:
-    - name: Install Apache Web Server
+    - name: Install Apache
       apt:
         name: apache2
         state: present
@@ -31,12 +41,12 @@
         state: started
         enabled: yes
 
-    - name: Check Apache status
+    - name: Display Apache status
       command: systemctl status apache2 --no-pager
       register: apache_status
-      ignore_errors: yes
+      ignore_errors: true
       changed_when: false
 
-    - name: Display Apache status
+    - name: Show Apache status output
       debug:
         msg: "{{ apache_status.stdout }}"
