@@ -7,7 +7,7 @@
   tasks:
     - name: Ensure python-apt is installed
       apt:
-        name: python-apt
+        name: python3-apt
         state: present
 
     - name: Update apt cache
