@@ -2,23 +2,18 @@
 - name: Install and manage Apache on Ubuntu
   hosts: all
   become: true
-  gather_facts: false  # Avoid fact gathering until deps are ready
+  gather_facts: false  # Disable gathering facts to avoid python-apt dependency
 
   pre_tasks:
-    - name: Ensure apt cache is updated (raw)
+    - name: Ensure apt cache is updated
       raw: apt-get update -y
       register: update_result
       changed_when: false
 
-    - name: Install python3-apt if not present (raw)
-      raw: apt-get install -y python3-apt
-      register: python3_apt_result
-      changed_when: "'Setting up python3-apt' in python3_apt_result.stdout"
-
-    - name: Install python3-six if not present (raw)
-      raw: apt-get install -y python3-six
-      register: python3_six_result
-      changed_when: "'Setting up python3-six' in python3_six_result.stdout"
+    - name: Install python3-six and python3-apt if not present
+      raw: apt-get install -y python3-six python3-apt
+      register: python3_dependencies_result
+      changed_when: "'Setting up python3-six' in python3_dependencies_result.stdout or 'Setting up python3-apt' in python3_dependencies_result.stdout"
 
     - name: Re-enable fact gathering
       setup:
